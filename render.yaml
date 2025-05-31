@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: email-api
+    env: node
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: REDIS_URL
+        sync: false
+      - key: SENDGRID_API_KEY
+        sync: false
+      - key: FROM_EMAIL
+        value: support@portflection.com
+
+  - type: worker
+    name: email-worker
+    env: node
+    buildCommand: npm install
+    startCommand: npm run worker
+    envVars:
+      - key: REDIS_URL
+        sync: false
+      - key: SENDGRID_API_KEY
+        sync: false
+      - key: FROM_EMAIL
+        value: support@portflection.com
