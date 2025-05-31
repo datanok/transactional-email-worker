@@ -16,7 +16,7 @@ yarn-error.log*
 # OS
 .DS_Store
 Thumbs.db
-
+package-lock.json
 # Redis dump (if using local Redis, though you are using Upstash)
 dump.rdb
 
