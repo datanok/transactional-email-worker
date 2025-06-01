@@ -104,8 +104,7 @@
     "wrappy": "^1.0.2"
   },
   "scripts": {
-    "start": "node index.js",
-    "worker": "node worker.js"
+    "start": "node index.js"
   },
   "author": "tanmay patil",
   "license": "ISC"
