@@ -1,5 +1,4 @@
 const { Queue } = require("bullmq");
-const Redis = require("ioredis");
 const redis = require("./redis");
 require("dotenv").config();
 

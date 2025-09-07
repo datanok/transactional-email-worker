@@ -26,16 +26,16 @@ const emailQueue = new Queue("emailQueue", {
 const worker = new Worker(
   "emailQueue",
   async (job) => {
-    const { to, subject, template, VERIFICATION_URL, name } = job.data;
-    if (!to || !subject || !template || !VERIFICATION_URL || !name) {
+    const { to, subject, templateName, variables, rawHtml } = job.data;
+    if (!to) {
       throw new Error("Missing required email fields in job data");
     }
 
     try {
-      await sendEmail(to, subject, template, {
-        VERIFICATION_URL,
-        name,
-      });
+      console.log(templateName, "asdasd");
+      console.log(variables);
+      console.log(rawHtml);
+      await sendEmail({ to, subject, templateName, variables, rawHtml });
       console.log(`✅ Email sent to ${to}`);
     } catch (err) {
       console.error("❌ Email send failed:", err);
@@ -51,19 +51,16 @@ const worker = new Worker(
 
 // ----- Express Route -----
 app.post("/send", async (req, res) => {
-  const { to, subject, template, VERIFICATION_URL, name } = req.body;
-
-  if (!to || !subject || !template || !VERIFICATION_URL || !name) {
-    return res.status(400).json({ error: "Missing required fields" });
-  }
+  const { to, subject, templateName, variables, rawHtml } = req.body;
+  console.log(req.body);
 
   try {
     await emailQueue.add("sendEmail", {
       to,
       subject,
-      template,
-      VERIFICATION_URL,
-      name,
+      templateName,
+      variables,
+      rawHtml,
     });
 
     res.status(200).json({ message: "✅ Email job added to queue" });
